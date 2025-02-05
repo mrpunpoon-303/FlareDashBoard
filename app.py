@@ -18,6 +18,7 @@ from top_20_users_analysis import (
 )
 from utils import parse_contents
 
+# Initialize Dash App
 app = Dash(__name__, 
     external_stylesheets=[
         dbc.themes.BOOTSTRAP,
@@ -25,6 +26,9 @@ app = Dash(__name__,
     ],
     suppress_callback_exceptions=True
 )
+
+# Expose Flask Server for Gunicorn
+server = app.server
 
 # Define the main app layout with navigation and shared file upload
 app.layout = html.Div([
@@ -118,8 +122,6 @@ register_monthly_stat_callbacks(app)
 register_monthly_booking_student_callbacks(app)
 register_top_20_users_callbacks(app)
 
-
-server = app.server
-
+# Run the app
 if __name__ == '__main__':
-    app.run_server(debug=True, port=8062)
+    app.run_server(debug=True, host="0.0.0.0", port=8080)
