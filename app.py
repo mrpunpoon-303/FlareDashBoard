@@ -118,5 +118,8 @@ register_monthly_stat_callbacks(app)
 register_monthly_booking_student_callbacks(app)
 register_top_20_users_callbacks(app)
 
+
+server = app.server
+
 if __name__ == '__main__':
     app.run_server(debug=True, port=8062)
