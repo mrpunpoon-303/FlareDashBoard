@@ -128,4 +128,5 @@ register_top_20_users_callbacks(app)
 register_student_distribution_callbacks(app)
 
 if __name__ == '__main__':
-    app.run_server(debug=True, port=8062)
+    port = int(os.environ.get("PORT", 8080))
+    app.run_server(host='0.0.0.0', port=port)
