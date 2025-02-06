@@ -16,9 +16,12 @@ from top_20_users_analysis import (
     create_top_20_users_layout,
     register_top_20_users_callbacks
 )
+from student_distribution import (
+    create_student_distribution_layout, 
+    register_student_distribution_callbacks
+)
 from utils import parse_contents
 
-# Initialize Dash App
 app = Dash(__name__, 
     external_stylesheets=[
         dbc.themes.BOOTSTRAP,
@@ -26,9 +29,6 @@ app = Dash(__name__,
     ],
     suppress_callback_exceptions=True
 )
-
-# Expose Flask Server for Gunicorn
-server = app.server
 
 # Define the main app layout with navigation and shared file upload
 app.layout = html.Div([
@@ -65,6 +65,8 @@ app.layout = html.Div([
         dcc.Link('Monthly Booking by Student', href='/student-booking'),
         html.Span(' | ', className="mx-2"),
         dcc.Link('Top 20 Users', href='/top-20-users'),
+        html.Span(' | ', className="mx-2"),
+        dcc.Link('Student Distribution', href='/student-distribution'),
     ], className="bg-gray-100 p-4 flex justify-center space-x-4"),
     
     # Page content container
@@ -81,7 +83,7 @@ app.layout = html.Div([
     [Output('shared-stored-data', 'data'),
      Output('shared-upload-feedback', 'children'),
      Output('shared-upload-feedback', 'className'),
-     Output('loading-upload-output', 'children')],  # Add output for loading state
+     Output('loading-upload-output', 'children')],
     Input('shared-upload-data', 'contents'),
     State('shared-upload-data', 'filename')
 )
@@ -112,6 +114,8 @@ def display_page(pathname):
         return create_monthly_booking_student_layout(show_upload=False)
     elif pathname == '/top-20-users':
         return create_top_20_users_layout(show_upload=False)
+    elif pathname == '/student-distribution':
+        return create_student_distribution_layout(show_upload=False)
     else:
         return create_layout(show_upload=False)
 
@@ -121,7 +125,7 @@ register_monthly_user_booking_callbacks(app)
 register_monthly_stat_callbacks(app)
 register_monthly_booking_student_callbacks(app)
 register_top_20_users_callbacks(app)
+register_student_distribution_callbacks(app)
 
-# Run the app
 if __name__ == '__main__':
-    app.run_server(debug=True, host="0.0.0.0", port=8080)
+    app.run_server(debug=True, port=8062)
