@@ -1,5 +1,6 @@
 from dash import Dash, html, dcc, Input, Output, State
 import dash_bootstrap_components as dbc
+import os
 from layouts import create_layout
 from callbacks import register_callbacks
 from monthly_user_booking_analysis import (
@@ -29,6 +30,9 @@ app = Dash(__name__,
     ],
     suppress_callback_exceptions=True
 )
+
+# Add this line for Gunicorn
+server = app.server
 
 # Define the main app layout with navigation and shared file upload
 app.layout = html.Div([
